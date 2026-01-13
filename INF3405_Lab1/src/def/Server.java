@@ -2,7 +2,7 @@ package def;
 
 public class Server {
 	public static void main(String[] args) {
-		System.out.println("Bonjour la famille");
+		System.out.println("Bonjour la famille 2");
 	}
 
 }
