@@ -1,0 +1,34 @@
+package def;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+
+public class Server {
+    private static ServerSocket listener;
+
+    public static void main(String[] args) throws Exception {
+        int clientNumber = 0;
+        String serverAddress = "127.0.0.1";
+        int serverPort = 5000;
+
+        // Création de la connexion
+        listener = new ServerSocket();
+        listener.setReuseAddress(true);
+        
+        InetAddress serverIP = InetAddress.getByName(serverAddress);
+        
+        // Association de l'adresse et du port
+        listener.bind(new InetSocketAddress(serverIP, serverPort));
+        System.out.format("The server is running on %s:%d%n", serverAddress, serverPort);
+
+        try {
+            while (true) {
+                // La fonction accept() est bloquante
+                new ClientHandler(listener.accept(), clientNumber++).start();
+            }
+        } finally {
+            // Fermeture de la connexion sécurisée par le bloc finally
+            listener.close();
+        }
+    }
+}
